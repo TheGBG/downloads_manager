@@ -1,14 +1,26 @@
+#!/usr/bin/env python
+
 import os
 from utils import *
+from argparse import ArgumentParser
 
-# Get the home dir like this so it works
-# in any computer
+parser = ArgumentParser()
+parser.add_argument(
+    '-d',
+    '--directory',
+    default='Downloads',
+    type=str,
+    help='''The diretory in which to perform the clean of filenames. If no
+    directory is provided, it will work on the downloads folder.'''
+)
+
+args = parser.parse_args()
+
+# Build the full path
 home_directory = os.path.expanduser('~')
+target_directory = args.directory
+root_path = os.path.join(home_directory, target_directory)
 
-# This is the only hardcoded part
-downloads_folder = 'Downloads'
-
-root_path = os.path.join(home_directory, downloads_folder)
 filenames = os.listdir(root_path)
 
 for dirty_name in filenames:
@@ -27,7 +39,8 @@ for dirty_name in filenames:
 
     if os.path.exists(clean_path):
         clean_path = create_unique_file_path(root_path, clean_name)
-        clean_name = os.path.basename(clean_path)
+        clean_name = os.path.basename(clean_path)  # to later print the
+                                                   # updatded version
 
     # 4.Rename and print feedback
     os.rename(dirty_path, clean_path)
