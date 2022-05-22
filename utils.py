@@ -27,3 +27,27 @@ def clean_filename(filename):
     clean_name += extension
 
     return clean_name
+
+def create_unique_file_path(root_path, filename):
+    '''
+    Adds a number to a filepath till its unique.
+        file_path(1)
+        file_path(2)
+        file_path(3)
+        ...
+    '''
+    
+    i = 1
+    name, extension = os.path.splitext(filename)
+
+    filename = f'{name}({i}){extension}'
+    file_path = os.path.join(root_path, filename)
+    
+    while os.path.exists(file_path):
+        i += 1
+        
+        # Update the path with the final number
+        filename = f'{name}({i}){extension}'
+        file_path = os.path.join(root_path, filename)
+    
+    return file_path
