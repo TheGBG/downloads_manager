@@ -26,6 +26,10 @@ for dirty_name in filenames:
     clean_path = os.path.join(root_path, clean_name)
     dirty_path = os.path.join(root_path, dirty_name)
 
+    if clean_name == dirty_name:
+        print(f'Filename "{dirty_name}" is already clean, skipping this file.')
+        continue
+
     # 3.Rename and print feedback
     os.rename(dirty_path, clean_path)
     
